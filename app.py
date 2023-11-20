@@ -45,6 +45,7 @@ def main():
                                                           accept_multiple_files=False)
                 with open(os.path.join(f'{VIDEO_PATH}', download_video.name),"wb") as f:
                           f.write(download_video.getbuffer())
+                
                           
             elif option == 'Youtube':
                 SOURCE_LINK = st.sidebar.text_input("ссылка на видео YouTube")
@@ -52,8 +53,10 @@ def main():
         
         with column1:
             
-            if download_video:
-                TestModel.local_video_processing(VIDEO_PATH, download_video)
+            play = st.button(label='начать')
+            
+            if download_video and play:
+                TestModel.local_video_processing(VIDEO_PATH, download_video, column2)
                 #TestModel.key_points(VIDEO_PATH)
                 column2.write('')
             elif SOURCE_LINK:

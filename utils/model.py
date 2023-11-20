@@ -27,39 +27,49 @@ class SignDetection:
         res = self.model.track(image, conf=0.1, persist=True)
         
         res_plotted = res[0].plot()
+        
         st_frame.image(res_plotted,
                        caption='Detected Video',
                        channels="BGR",
                        use_column_width=True
                        )
-    
-    def key_points(self, path):
-        
-        results = self.model(path, conf=0.1, stream=False)
-        
-        for res in results:
-            
-            print(res.probs)
         
         
+    def other_results(self, st_frame, image, column):
         
-    
-    
-    def local_video_processing(self, path, local_video):    
+        image = cv2.resize(image, (720, int(720*(9/16))))
 
-        #with open(f'{path}\\{local_video.name}', 'rb') as video_file:
-            #video_bytes = video_file.read()
+        res = self.model.track(image, conf=0.1, persist=True)
+        
+        #boxes = res[0].probs
+        #res_plotted = res[0].plot()
+        
+        try:
+            with st.expander('keypoints'):
+                for item in res:
+                    column.write(item.top1)
+        
+        except Exception as e:
+            st.sidebar.error("no res")
+        
+        
+    
+    
+    def local_video_processing(self, path, local_video, column):    
         
         st.video(local_video)
         
+        flag = st.button(label='остановить')
         try:
             vid_cap = cv2.VideoCapture(
                 f'{path}\\{local_video.name}')
             st_frame = st.empty()
-            while (vid_cap.isOpened()):
+        
+            while (not flag and vid_cap.isOpened()):
                 success, image = vid_cap.read()
                 if success:
                     self._video_frames(st_frame, image)
+                    #self.key_points(st_frame, image, column)
                 else:
                     vid_cap.release()
                     break
