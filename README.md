@@ -12,7 +12,8 @@
 
 Также можно увидеть что из себя представляют изображения данного датасета:
 
-<p align="center"><img src="img/1.png" width=80% alt="Main page"></p>
+<p align="center"><img src="img/1.jpg" width=80% alt="Main page"></p>
+<p align="center"><img src="img/2.jpg" width=80% alt="Main page"></p>
 
 ## Эксперименты
 
@@ -25,7 +26,7 @@
 
 Веб-приложение позволяет загрузить видеоряд с локального ПК или с YouTube. Если на видео будет обнаружен знак дорожного движения, то в реальном времени он будет выделен bounding-box'ом с текстовой подписью номера знака из ПДД. Например:
 
-<p align="center"><img src="img/2.png" width=90% alt="Main page"></p>
+<p align="center"><img src="img/3.jpg" width=90% alt="Main page"></p>
 
 - Веб-приложение: streamlit
 - Модель: YOLOv8
