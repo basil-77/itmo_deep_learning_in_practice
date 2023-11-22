@@ -6,7 +6,6 @@ Created on Sat Nov 18 17:37:49 2023
 """
 import cv2
 import streamlit as st
-import pytube as YT
 from ultralytics import YOLO
 
 
