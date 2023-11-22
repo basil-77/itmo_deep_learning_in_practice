@@ -11,90 +11,56 @@ from ultralytics import YOLO
 
 
 class SignDetection:
-    
     def __init__(self, model_path):
-        
 
         self.model = YOLO(model_path)
-        
-    
 
-    
-    def _video_frames(self, st_frame, image):
-        
-        image = cv2.resize(image, (720, int(720*(9/16))))
+    def _video_frames(self, st_frame, image, flag, column):
 
-        res = self.model.track(image, conf=0.1, persist=True)
-        
-        res_plotted = res[0].plot()
-        
-        st_frame.image(res_plotted,
-                       caption='Detected Video',
-                       channels="BGR",
-                       use_column_width=True
-                       )
-        
-        
-    def other_results(self, st_frame, image, column):
-        
-        image = cv2.resize(image, (720, int(720*(9/16))))
+        if not flag:
 
-        res = self.model.track(image, conf=0.1, persist=True)
-        
-        #boxes = res[0].probs
-        #res_plotted = res[0].plot()
-        
-        try:
-            with st.expander('keypoints'):
-                for item in res:
-                    column.write(item.top1)
-        
-        except Exception as e:
-            st.sidebar.error("no res")
-        
-        
-    
-    
-    def local_video_processing(self, path, local_video, column):    
-        
+            image = cv2.resize(image, (720, int(720 * (9 / 16))))
+
+            res = self.model.track(image, conf=0.2, persist=True)
+
+            res_str = res[0].verbose()
+
+            res_plotted = res[0].plot()
+
+            with column:
+
+                if res_str != "(no detections), ":
+                    st.write(res_str)
+                    st.image(res_plotted, caption="Распознано", use_column_width=True)
+                else:
+                    pass
+
+            st_frame.image(
+                res_plotted, caption="Tracking", channels="BGR", use_column_width=True
+            )
+        else:
+
+            image.release()
+
+    def local_video_processing(self, path, local_video, column):
+
         st.video(local_video)
-        
-        flag = st.button(label='остановить')
+
+        flag = st.button(label="остановить")
         try:
-            vid_cap = cv2.VideoCapture(
-                f'{path}\\{local_video.name}')
+            vid_cap = cv2.VideoCapture(f"{path}\\{local_video.name}")
             st_frame = st.empty()
-        
-            while (not flag and vid_cap.isOpened()):
+
+            while not flag:
                 success, image = vid_cap.read()
                 if success:
-                    self._video_frames(st_frame, image)
-                    #self.key_points(st_frame, image, column)
+                    self._video_frames(st_frame, image, flag, column)
                 else:
                     vid_cap.release()
                     break
         except Exception as e:
             st.sidebar.error("Видео не загружено")
-            
-    
-            
-    def youtube_video_processing(self, source_link):
-        
-        
-        yt = YT(source_link)
-        stream = yt.streams.filter(file_extension="mp4", res=720).first()
-        vid_cap = cv2.VideoCapture(stream.url)
-        st_frame = st.empty()
-        
-        while (vid_cap.isOpened()):
-            success, image = vid_cap.read()
-            if success:
-                self._video_frames(st_frame, image)
-            else:
-                vid_cap.release()
-                break
-        
-            
- # cd Documents\Github\itmo_deep_learning_in_practice           
+
+
+# cd Documents\Github\itmo_deep_learning_in_practice
 # streamlit run app.py
-            
