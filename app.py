@@ -9,12 +9,12 @@ import streamlit as st
 
 import os
 from streamlit_player import st_player
-from utils.model import SignDetection
+from utils_model.model import SignDetection
 
 SOURCE_LINK = None
 VIDEO_PATH = "videos"
 
-TestModel = SignDetection(f"{os.getcwd()}\\utils\\best.pt")
+TestModel = SignDetection(f"{os.getcwd()}\\utils_model\\best.pt")
 
 
 def main():
