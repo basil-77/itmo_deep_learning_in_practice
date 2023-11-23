@@ -10,12 +10,6 @@
 
 полученные графики находятся на https://drive.google.com/drive/folders/1e1ANjj-kWM5Z3RyVXB5qg3Vr5kXw__4N?usp=drive_link
 
-<p align="center"><img src="img/img1.png" width=80% alt="Main page"></p>
-
-<p align="center"><img src="img/img2.png" width=80% alt="Main page"></p>
-
-<p align="center"><img src="img/img3.png" width=80% alt="Main page"></p>
-
 ## Как дообучить
 
 1)Скачать датасет
