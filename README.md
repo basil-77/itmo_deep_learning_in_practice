@@ -11,11 +11,12 @@ pip install -r requirements.txt
 ```bash
 streamlit run app.py
 ```
-##Запись функционала
+
+## Запись функционала
 
 [Светло день](https://youtu.be/-AlWvp2oGvI)
 
 
-[Дождь ночь] (https://youtu.be/YnyDV07TaCk)
+[Дождь ночь](https://youtu.be/YnyDV07TaCk)
 
 
