@@ -8,7 +8,7 @@
 
 модель - YOLOv8
 
-полученные графики находятся на [https://drive.google.com/drive/folders/1e1ANjj-kWM5Z3RyVXB5qg3Vr5kXw__4N?usp=drive_link](https://drive.google.com/drive/folders/1e1ANjj-kWM5Z3RyVXB5qg3Vr5kXw__4N?usp=sharing)
+полученные графики находятся [здесь](https://drive.google.com/drive/folders/1e1ANjj-kWM5Z3RyVXB5qg3Vr5kXw__4N?usp=sharing)
 
 ## Как дообучить
 
