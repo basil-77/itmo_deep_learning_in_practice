@@ -52,5 +52,22 @@ EDA датасета находится в файле: "EDA_Russian_traffic_sign
 - Веб-приложение: streamlit
 - Модель: YOLOv8
 
-## Как запустить
+## Как запустить (python >= 3.10)
+
+```bash
+pip install -r requirements.txt
+```
+
+
+## Запуск из папки проекта
+```bash
+streamlit run app.py
+```
+
+## Запись функционала
+
+[Светло день](https://youtu.be/-AlWvp2oGvI)
+
+
+[Дождь ночь](https://youtu.be/YnyDV07TaCk)
 
