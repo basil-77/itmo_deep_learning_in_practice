@@ -11,16 +11,6 @@ from shutil import copyfile, move, copy
 from JSON2YOLO.general_json2yolo import convert_coco_json
 from tqdm.notebook import tqdm
 
-
-# =============================================================================
-# with open('JSON2YOLO\\general_json2yolo.py', 'r+') as fd:
-#     lines = fd.readlines()                                                     
-#     fd.seek(0)                                                                 
-#     line273 = ["            h, w, f = img['height'], img['width'], img['file_name'].split('/')[1]"]
-#     print(line273)
-#     fd.writelines(lines[:273] + line273 + lines[274:])
-# =============================================================================
-
 fd = open('JSON2YOLO\\general_json2yolo.py', 'r')                                             
 lines = fd.readlines()                                                     
 fd.seek(0)                                                                 
@@ -52,12 +42,6 @@ convert_coco_json('.\\test_annotation\\')
 for file in tqdm(os.listdir(os.path.join('new_dir\\labels\\val_anno'))):
     move(os.path.join('new_dir\\labels\\val_anno', file), os.path.join(test_path, 'labels', file))
     
-    
-##############################################################################################################
-#Images
-#
-#
-
 
 test_labels = os.listdir(os.path.join(test_path, 'labels'))
 train_labels = os.listdir(os.path.join(train_path, 'labels'))
