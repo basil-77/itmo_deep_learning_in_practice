@@ -32,6 +32,22 @@ Batch-size - автовыбор;
 По окончании обучения оценка метрик mAP50 и mAP50-95 составили соответственно.
 
 ## Разработка MVP (мобильное приложение Android)
+Использование модели в мобильном приложении требует предварительной ее конвертации в совместимый формат. В данной работе выполнена конвертация в torchscript plt:
+
+```python
+model.export(format='torchscript')
+```
+```python
+torchscript_model = "yolov8n.torchscript"
+export_model_name = "yolov8n.torchscript.ptl"
+
+model = torch.jit.load(torchscript_model)
+optimized_model = optimize_for_mobile(model)
+optimized_model._save_for_lite_interpreter(export_model_name)
+
+print(f"mobile optimized model exported to {export_model_name}")
+```
+
 В качестве образца приложения использован шаблон PyTorch Android App, доступный на гитхаб [PyTorch Android App](https://github.com/pytorch/android-demo-app/tree/master). Шаблон разработан под версию YOLOv5. Выбранная в качестве модели восьмая версия имеет отличия в output shape - для версии 5 output shape имеет формат [1, 22500, nClasses+5], в то время как, в версии 8 формат выхода представляет собой тензор размерности [1, nClasses+4, 8400]. Данные различия в форматах потребовали изменений реализации постобработки Non Maximum Supression, что и было сделано в рамках работы (функция outpotsToNMSPredictionsYOLO8() в модуле PrePostProcessor.java).
 
 ```java
