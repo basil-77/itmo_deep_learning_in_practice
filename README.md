@@ -35,7 +35,7 @@ Batch-size - автовыбор;
 В качестве образца приложения использован шаблон PyTorch Android App, доступный на гитхаб [PyTorch Android App](https://github.com/pytorch/android-demo-app/tree/master). Шаблон разработан под версию YOLOv5. Выбранная в качестве модели восьмая версия имеет отличия в output shape - для версии 5 output shape имеет формат [1, 22500, nClasses+5], в то время как, в версии 8 формат выхода представляет собой тензор размерности [1, nClasses+4, 8400]. Данные различия в форматах потребовали изменений реализации постобработки Non Maximum Supression, что и было сделано в рамках работы (функция outpotsToNMSPredictionsYOLO8() в модуле PrePostProcessor.java).
 
 ```java
-    static ArrayList<Result> outputsToNMSPredictionsYOLO8(float[] outputs, float imgScaleX, float imgScaleY, float ivScaleX, float ivScaleY, float startX, float startY)
+static ArrayList<Result> outputsToNMSPredictionsYOLO8(float[] outputs, float imgScaleX, float imgScaleY, float ivScaleX, float ivScaleY, float startX, float startY)
 ```
 Помимо этого был переработан основной экран (Activity) приложения и добавлена дополнительная функциональность исходя из задачи. Пороговое значение вероятности для фиксации факта детекции - 0.5  
 Работа выполнена в среде Android Studio.  
