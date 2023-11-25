@@ -51,11 +51,16 @@ print(f"mobile optimized model exported to {export_model_name}")
 В качестве образца приложения использован шаблон PyTorch Android App, доступный на гитхаб [PyTorch Android App](https://github.com/pytorch/android-demo-app/tree/master). Шаблон разработан под версию YOLOv5. Выбранная в качестве модели восьмая версия имеет отличия в output shape - для версии 5 output shape имеет формат [1, 22500, nClasses+5], в то время как, в версии 8 формат выхода представляет собой тензор размерности [1, nClasses+4, 8400]. Данные различия в форматах потребовали изменений реализации постобработки Non Maximum Supression (реализовано в [outputsToNMSPredictionsYOLO8()](https://github.com/basil-77/itmo_deep_learning_in_practice/blob/b4e4f94cb6a94bbd9fb46e1683484062ad2accf3/app/app/src/main/java/org/pytorch/demo/objectdetection/PrePostProcessor.java#L153) в модуле PrePostProcessor.java).
 
 ```java
-static ArrayList<Result> outputsToNMSPredictionsYOLO8(float[] outputs, float imgScaleX, float imgScaleY, float ivScaleX, float ivScaleY, float startX, float startY)
+PrePostProcessor.java
+static ArrayList<Result> outputsToNMSPredictionsYOLO8(float[] outputs,
+                                                      float imgScaleX, float imgScaleY,
+                                                      float ivScaleX, float ivScaleY,
+                                                      float startX, float startY)
 ```
 В результате появилась возможность использовать в приложении модели вне зависимости от версии (от YOLOv3); использование того или иного алгоритма для выполнения операций NMS в постобработке включается флагом [isYOLO8](https://github.com/basil-77/itmo_deep_learning_in_practice/blob/1667170b57812f6c8def7a0102133712454026bc/app/app/src/main/java/org/pytorch/demo/objectdetection/ObjectDetectionActivity.java#L46)
 
 ```java
+// ObjectDetectionActivity.java
 private static boolean isYOLO8 = true;
 ```
 Дополнительные параметры (имя файла модели, число классов, output shape и пр.) задаются в виде:
