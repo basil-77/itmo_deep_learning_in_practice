@@ -58,6 +58,23 @@ static ArrayList<Result> outputsToNMSPredictionsYOLO8(float[] outputs, float img
 ```java
 private static boolean isYOLO8 = true;
 ```
+Дополнительные параметры (имя файла модели, число классов, output shape и пр.) задаются в виде:
+
+```java
+// ObjectDetectionActivity.java
+private static String modelname = "best.torchscript.ptl";
+private static String classesname = "classes.txt";
+```
+```java
+// PrePostProcessor.java
+private static int mOutputRow = 8400; //25200 for YOLOv5
+private static int mOutputColumn = 159; // output columns for YOLOv5 (number of classes + xywh + confidence)
+private static int mnumClasses = 155; // number of classes for YOLOv8
+private static int mlenXYWH = 4; // xywh for YOLOv8
+private static float mThreshold = 0.50f; // score above which a detection is generated
+private static int mNmsLimit = 5; // limit of detgection objects at the same time
+```
+
 Помимо этого был переработан основной экран (Activity) приложения и добавлена дополнительная функциональность исходя из задачи. Пороговое значение вероятности для фиксации факта детекции - 0.5  
 Работа выполнена в среде Android Studio.  
 Сборка приложения выполнялась под платформу API 31 (Android 12).  
