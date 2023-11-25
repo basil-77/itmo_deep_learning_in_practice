@@ -17,6 +17,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.drawable.shapes.RoundRectShape;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -24,6 +25,9 @@ import androidx.core.content.ContextCompat;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class ResultView extends View {
@@ -38,6 +42,10 @@ public class ResultView extends View {
     private ArrayList<Result> mResults;
 
     String sign;
+    List<String> signs = new ArrayList<>();
+
+    private java.time.LocalTime timer;
+
     public ResultView(Context context) {
         super(context);
     }
@@ -53,25 +61,40 @@ public class ResultView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        try {
+
+        for (int i=0; i<signs.size(); i++){
+
+            sign = signs.get(i);
             String resource_name = "znak_" + sign;
-            Class res = R.drawable.class;
-            Field field = res.getField(resource_name);
-            int drawableId = field.getInt(null);
-            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), drawableId);
-            bitmap.eraseColor(Color.WHITE);
-            Canvas canvas_white = new Canvas(bitmap);  // create a canvas to draw on the new image
-            canvas.drawBitmap(bitmap, 0f, 0f, null); // draw old image on the background
-            //bitmap.recycle();
+            int resID = getResources().getIdentifier(resource_name, "drawable", getContext().getPackageName());
 
-            canvas.drawBitmap(bitmap, null, new RectF(0, 0, 256, 256), null);
-        }
-        catch (Exception e) {
-            //Log.e("MyTag", "Failure to get drawable id.", e);
-        }
+            if(resID != 0){
+                Class res = R.drawable.class;
+                //Field field = res.getField(resource_name);
+                //int drawableId = field.getInt(null);
+                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), resID);
+                //Bitmap bitmap = BitmapFactory.decodeResource(getResources(), drawableId);
+                int height = canvas.getHeight();
+                int weidth = canvas.getWidth();
+                int size = height/8;
+                int topy = height*6/8;
+                int topx = size/10 + i*size + size/10;
+                Paint paint = new Paint();
+                paint.setStyle(Paint.Style.FILL);
+                paint.setColor(Color.WHITE);
+                RectF rectf = new RectF(topx, topy, topx+size, topy+size);
+                if (topx+size<weidth){
+                    canvas.drawRoundRect(rectf, 10, 10, paint);
+                    canvas.drawBitmap(bitmap, null, rectf
+                            , null);
 
+                }
+            }
+
+        }
 
         if (mResults == null) return;
+        if (mResults!=null) signs.clear();
         for (Result result : mResults) {
             mPaintRectangle.setStrokeWidth(5);
             mPaintRectangle.setStyle(Paint.Style.STROKE);
@@ -90,9 +113,13 @@ public class ResultView extends View {
             canvas.drawText(String.format("%s %.2f", PrePostProcessor.mClasses[result.classIndex], result.score), result.rect.left + TEXT_X, result.rect.top + TEXT_Y, mPaintText);
             sign = PrePostProcessor.mClasses[result.classIndex];
             sign.replace('_', '.');
+            if (!signs.contains(sign)){
+                signs.add(sign);
+                timer = java.time.LocalTime.now();
+            }
+
         }
     }
-
 
     public void setResults(ArrayList<Result> results) {
         mResults = results;

@@ -2,6 +2,7 @@ package org.pytorch.demo.objectdetection;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -41,7 +42,13 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class ObjectDetectionActivity extends AbstractCameraXActivity<ObjectDetectionActivity.AnalysisResult>  {
+    private static boolean isYOLO8 = true;
+
+    private static String modelname = "best.torchscript.ptl";
+    private static String classesname = "classes.txt";
+
     private Bitmap mBitmap = null;
     private Module mModule = null;
     //private float mImgScaleX, mImgScaleY, mIvScaleX, mIvScaleY, mStartX, mStartY;
@@ -70,6 +77,7 @@ public class ObjectDetectionActivity extends AbstractCameraXActivity<ObjectDetec
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
         }
@@ -80,8 +88,8 @@ public class ObjectDetectionActivity extends AbstractCameraXActivity<ObjectDetec
 
 
         try {
-            mModule = LiteModuleLoader.load(ObjectDetectionActivity.assetFilePath(getApplicationContext(), "best_y5_1280.torchscript.ptl"));
-            BufferedReader br = new BufferedReader(new InputStreamReader(getAssets().open("classes.txt")));
+            mModule = LiteModuleLoader.load(ObjectDetectionActivity.assetFilePath(getApplicationContext(), modelname));
+            BufferedReader br = new BufferedReader(new InputStreamReader(getAssets().open(classesname)));
             String line;
             List<String> classes = new ArrayList<>();
             while ((line = br.readLine()) != null) {
@@ -153,7 +161,7 @@ public class ObjectDetectionActivity extends AbstractCameraXActivity<ObjectDetec
     protected AnalysisResult analyzeImage(ImageProxy image, int rotationDegrees) {
         try {
             if (mModule == null) {
-                mModule = LiteModuleLoader.load(ObjectDetectionActivity.assetFilePath(getApplicationContext(), "best_y5_1280.torchscript.ptl"));
+                mModule = LiteModuleLoader.load(ObjectDetectionActivity.assetFilePath(getApplicationContext(), modelname));
             }
         } catch (IOException e) {
             Log.e("Object Detection", "Error reading assets", e);
@@ -162,12 +170,27 @@ public class ObjectDetectionActivity extends AbstractCameraXActivity<ObjectDetec
         Bitmap bitmap = imgToBitmap(image.getImage());
         Matrix matrix = new Matrix();
         matrix.postRotate(90.0f);
+        //matrix.postRotate(rotationDegrees);
         bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
         Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, PrePostProcessor.mInputWidth, PrePostProcessor.mInputHeight, true);
 
         final Tensor inputTensor = TensorImageUtils.bitmapToFloat32Tensor(resizedBitmap, PrePostProcessor.NO_MEAN_RGB, PrePostProcessor.NO_STD_RGB);
-        IValue[] outputTuple = mModule.forward(IValue.from(inputTensor)).toTuple();
-        final Tensor outputTensor = outputTuple[0].toTensor();
+
+        Tensor outputTensor;
+
+        if (isYOLO8) {
+            outputTensor = mModule.forward(IValue.from(inputTensor)).toTensor();
+        }
+        else
+        {
+            IValue[] outputTuple = mModule.forward(IValue.from(inputTensor)).toTuple();
+            outputTensor = outputTuple[0].toTensor();
+        }
+
+        //outputTensor.
+        //IValue out = outputtensor
+        //IValue[] outputTuple = mModule.forward(IValue.from(inputTensor)).toTuple();
+        //final Tensor outputTensor = outputTuple[0].toTensor();
         final float[] outputs = outputTensor.getDataAsFloatArray();
 
         float imgScaleX = (float)bitmap.getWidth() / PrePostProcessor.mInputWidth;
@@ -175,7 +198,15 @@ public class ObjectDetectionActivity extends AbstractCameraXActivity<ObjectDetec
         float ivScaleX = (float)mResultView.getWidth() / bitmap.getWidth();
         float ivScaleY = (float)mResultView.getHeight() / bitmap.getHeight();
 
-        final ArrayList<Result> results = PrePostProcessor.outputsToNMSPredictions(outputs, imgScaleX, imgScaleY, ivScaleX, ivScaleY, 0, 0);
+        final ArrayList<Result> results;
+        if (isYOLO8){
+            results = PrePostProcessor.outputsToNMSPredictionsYOLO8(outputs, imgScaleX, imgScaleY, ivScaleX, ivScaleY, 0, 0);
+        }
+        else {
+            results = PrePostProcessor.outputsToNMSPredictions(outputs, imgScaleX, imgScaleY, ivScaleX, ivScaleY, 0, 0);
+        }
+
+        //final ArrayList<Result> results = PrePostProcessor.outputsToNMSPredictionsYOLO8(outputs, imgScaleX, imgScaleY, ivScaleX, ivScaleY, 0, 0);
         return new AnalysisResult(results);
     }
 

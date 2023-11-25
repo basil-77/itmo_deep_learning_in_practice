@@ -35,9 +35,11 @@ public class PrePostProcessor {
     static int mInputHeight = 640;
 
     // model output is of size 25200*(num_of_class+5)
-    private static int mOutputRow = 25200; // as decided by the YOLOv5 model for input image of size 640*640
-    private static int mOutputColumn = 85; // left, top, right, bottom, score and 80 class probability
-    private static float mThreshold = 0.30f; // score above which a detection is generated
+    private static int mOutputRow = 8400; //25200 as decided by the YOLOv5 model for input image of size 640*640
+    private static int mOutputColumn = 159; // 85 left, top, right, bottom, score and 80 class probability
+    private static int mnumClasses = 155; // number of classes
+    private static int mlenXYWH = 4;
+    private static float mThreshold = 0.50f; // score above which a detection is generated
     private static int mNmsLimit = 15;
 
     static String[] mClasses;
@@ -118,6 +120,7 @@ public class PrePostProcessor {
 
     static ArrayList<Result> outputsToNMSPredictions(float[] outputs, float imgScaleX, float imgScaleY, float ivScaleX, float ivScaleY, float startX, float startY) {
         ArrayList<Result> results = new ArrayList<>();
+        //float[] outputs1 = outputs;
         for (int i = 0; i< mOutputRow; i++) {
             if (outputs[i* mOutputColumn +4] > mThreshold) {
                 float x = outputs[i* mOutputColumn];
@@ -144,6 +147,46 @@ public class PrePostProcessor {
                 results.add(result);
             }
         }
+        return nonMaxSuppression(results, mNmsLimit, mThreshold);
+    }
+
+    static ArrayList<Result> outputsToNMSPredictionsYOLO8(float[] outputs, float imgScaleX, float imgScaleY, float ivScaleX, float ivScaleY, float startX, float startY) {
+        ArrayList<Result> results = new ArrayList<>();
+
+        int nCol = mnumClasses+mlenXYWH;
+
+        float[][] output = new float[mOutputRow][nCol];
+
+        for (int i=0; i<mOutputRow; i++){
+            for (int j=0; j<mnumClasses+mlenXYWH; j++){
+                output[i][j] = outputs[j*mOutputRow+i];
+            }
+        }
+
+        for (int i=0; i<mOutputRow; i++){ // 8400
+            for (int j=mlenXYWH; j<mnumClasses+mlenXYWH; j++){ //159
+                if (output[i][j] >= mThreshold){ // probabilities for each class
+                    float x = output[i][0];
+                    float y = output[i][1];
+                    float w = output[i][2];
+                    float h = output[i][3];
+
+                    float left = imgScaleX * (x - w/2);
+                    float top = imgScaleY * (y - h/2);
+                    float right = imgScaleX * (x + w/2);
+                    float bottom = imgScaleY * (y + h/2);
+
+                    int cls = j-mlenXYWH;
+                    float score = output[i][j];
+
+                    Rect rect = new Rect((int)(startX+ivScaleX*left), (int)(startY+top*ivScaleY), (int)(startX+ivScaleX*right), (int)(startY+ivScaleY*bottom));
+                    Result result = new Result(cls, score, rect);
+                    results.add(result);
+
+                }
+            }
+        }
+
         return nonMaxSuppression(results, mNmsLimit, mThreshold);
     }
 }

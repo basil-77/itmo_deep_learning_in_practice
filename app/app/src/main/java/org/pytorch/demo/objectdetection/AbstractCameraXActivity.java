@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Size;
+import android.view.Surface;
 import android.view.TextureView;
 import android.widget.Toast;
 
@@ -20,6 +21,7 @@ import androidx.annotation.WorkerThread;
 import androidx.camera.core.CameraX;
 import androidx.camera.core.ImageAnalysis;
 import androidx.camera.core.ImageAnalysisConfig;
+import androidx.camera.core.ImageCapture;
 import androidx.camera.core.ImageProxy;
 import androidx.camera.core.Preview;
 import androidx.camera.core.PreviewConfig;
@@ -39,6 +41,7 @@ public abstract class AbstractCameraXActivity<R> extends BaseModuleActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getContentViewLayoutId());
+
 
         startBackgroundThread();
 
@@ -70,20 +73,25 @@ public abstract class AbstractCameraXActivity<R> extends BaseModuleActivity {
     }
 
     private void setupCameraX() {
-        final TextureView textureView = getCameraPreviewTextureView();
-        final PreviewConfig previewConfig = new PreviewConfig.Builder().build();
+        final TextureView textureView = getCameraPreviewTextureView() ;
+        final PreviewConfig previewConfig = new PreviewConfig.Builder()
+                //.setTargetRotation(Surface.ROTATION_180)
+                .build();
         final Preview preview = new Preview(previewConfig);
+
         preview.setOnPreviewOutputUpdateListener(output -> textureView.setSurfaceTexture(output.getSurfaceTexture()));
 
         final ImageAnalysisConfig imageAnalysisConfig =
             new ImageAnalysisConfig.Builder()
                 .setTargetResolution(new Size(480, 640))
+                //.setTargetRotation(Surface.ROTATION_90)
+                //.setTargetResolution(new Size(720, 1280))
                 .setCallbackHandler(mBackgroundHandler)
                 .setImageReaderMode(ImageAnalysis.ImageReaderMode.ACQUIRE_LATEST_IMAGE)
                 .build();
         final ImageAnalysis imageAnalysis = new ImageAnalysis(imageAnalysisConfig);
         imageAnalysis.setAnalyzer((image, rotationDegrees) -> {
-            if (SystemClock.elapsedRealtime() - mLastAnalysisResultTime < 500) {
+            if (SystemClock.elapsedRealtime() - mLastAnalysisResultTime < 100) {
                 return;
             }
 
