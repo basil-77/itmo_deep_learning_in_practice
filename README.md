@@ -53,8 +53,11 @@ print(f"mobile optimized model exported to {export_model_name}")
 ```java
 static ArrayList<Result> outputsToNMSPredictionsYOLO8(float[] outputs, float imgScaleX, float imgScaleY, float ivScaleX, float ivScaleY, float startX, float startY)
 ```
-В результате появилась возможность использовать в приложении модели вне зависимости от версии (от YOLOv3); использование того или иного алгоритма для выполнения операций NMS в постобработке включается флагом
- 
+В результате появилась возможность использовать в приложении модели вне зависимости от версии (от YOLOv3); использование того или иного алгоритма для выполнения операций NMS в постобработке включается флагом [isYOLO8](https://github.com/basil-77/itmo_deep_learning_in_practice/blob/1667170b57812f6c8def7a0102133712454026bc/app/app/src/main/java/org/pytorch/demo/objectdetection/ObjectDetectionActivity.java#L46)
+
+```java
+private static boolean isYOLO8 = true;
+```
 Помимо этого был переработан основной экран (Activity) приложения и добавлена дополнительная функциональность исходя из задачи. Пороговое значение вероятности для фиксации факта детекции - 0.5  
 Работа выполнена в среде Android Studio.  
 Сборка приложения выполнялась под платформу API 31 (Android 12).  
