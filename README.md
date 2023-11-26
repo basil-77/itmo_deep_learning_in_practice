@@ -12,7 +12,7 @@ pip install -r requirements.txt
 streamlit run app.py
 ```
 После 1-го запуска установится доп библиотека. Нужно будет перезапустить сервис еще раз
-<p align="center"><img src="req.png" width=80% alt="Main page"></p>
+<img src="pngs/req.jpg" alt="Фотография 1" width="370">
 
 ## Запись функционала
 
