@@ -11,6 +11,8 @@ pip install -r requirements.txt
 ```bash
 streamlit run app.py
 ```
+После 1-го запуска установится доп библиотека. Нужно будет перезапустить сервис еще раз
+<p align="center"><img src="req.png" width=80% alt="Main page"></p>
 
 ## Запись функционала
 
