@@ -14,9 +14,9 @@ streamlit run app.py
 
 ## Запись функционала
 
-[Светло день](https://youtu.be/-AlWvp2oGvI)
+[Светло день](https://youtu.be/1IzePzng8G8)
 
+[Дождь ночь](https://youtu.be/OCR3bonUP80)
 
-[Дождь ночь](https://youtu.be/YnyDV07TaCk)
 
 
