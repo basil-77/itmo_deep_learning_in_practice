@@ -5,11 +5,14 @@ Created on Sat Nov 18 17:37:49 2023
 @author: M
 """
 import cv2
-from PIL import Image
-import streamlit as st
-from ultralytics import YOLO
-from pytube import YouTube
 import os
+import streamlit as st
+import torch
+
+from PIL import Image
+from pytube import YouTube
+from ultralytics import YOLO
+
 
 
 class SignDetection:
@@ -19,7 +22,12 @@ class SignDetection:
         self.detected_frames = arr
         self.detected_scores = sc
         self.path = path
-        
+        if torch.cuda.is_available():
+            self.cuda = torch.cuda.current_device()
+            print(f'use cuda device:{torch.cuda.get_device_name(self.cuda)}')
+        else:
+            self.cuda = 'cpu'
+            print('cant use cuda')
         
     def get_sign(self, sign_id):
       
@@ -41,8 +49,9 @@ class SignDetection:
         if not flag:
 
             image = cv2.resize(image, (720, int(720 * (9 / 16))))
-
-            res = self.model.track(image, conf=conf, persist=True)
+            
+            
+            res = self.model.track(image, conf=conf, persist=True, device=self.cuda)
 
             res_str = res[0].verbose()
             
