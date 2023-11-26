@@ -5,31 +5,60 @@ Created on Sat Nov 18 17:37:49 2023
 @author: M
 """
 import cv2
+from PIL import Image
 import streamlit as st
 from ultralytics import YOLO
+from pytube import YouTube
+import os
 
 
 class SignDetection:
-    def __init__(self, model_path):
+    def __init__(self, model_path, arr, sc, path):
 
         self.model = YOLO(model_path)
-
-    def _video_frames(self, st_frame, image, flag, column):
+        self.detected_frames = arr
+        self.detected_scores = sc
+        self.path = path
+        
+        
+    def get_sign(self, sign_id):
+      
+        dir_path = self.path
+        size = 128, 128
+        
+        try:
+            img = Image.open(f'{dir_path}\\znak_{sign_id}.png')
+            img.thumbnail(size)  
+        except Exception as e:
+            img = Image.open(f'{dir_path}\\none.png')
+            img.thumbnail(size)  
+       
+        return img
+                 
+            
+    def _video_frames(self, st_frame, image, flag, column, conf):
 
         if not flag:
 
             image = cv2.resize(image, (720, int(720 * (9 / 16))))
 
-            res = self.model.track(image, conf=0.2, persist=True)
+            res = self.model.track(image, conf=conf, persist=True)
 
             res_str = res[0].verbose()
-
+            
+            keys = res[0].boxes
+            
+            names = res[0].names
+            
             res_plotted = res[0].plot()
 
             with column:
-
-                if res_str != "(no detections), ":
-                    st.write(res_str)
+                
+                if res_str != "(no detections), " and res_str not in self.detected_frames:
+                    self.detected_frames.append(f'{res_str}')
+                    self.detected_scores.append(f'{keys.conf.item():.2f}')
+                    st.write(res_str, f'{keys.conf.item():.2f}')
+                    st.image(self.get_sign(res_str.split()[1][:-1]))
                     st.image(res_plotted, caption="Распознано", use_column_width=True)
                 else:
                     pass
@@ -41,7 +70,7 @@ class SignDetection:
 
             image.release()
 
-    def local_video_processing(self, path, local_video, column):
+    def local_video_processing(self, path, local_video, column, conf):
 
         st.video(local_video)
 
@@ -53,7 +82,27 @@ class SignDetection:
             while not flag:
                 success, image = vid_cap.read()
                 if success:
-                    self._video_frames(st_frame, image, flag, column)
+                    self._video_frames(st_frame, image, flag, column, conf)
+                else:
+                    vid_cap.release()
+                    break
+        except Exception as e:
+            st.sidebar.error("Видео не загружено")
+            
+    def ytube_video_processing(self, link, column, conf):
+
+        flag = st.button(label="остановить")
+       
+        try:
+            yt = YouTube(link)
+            stream = yt.streams.filter(file_extension="mp4", res=720).first()
+            vid_cap = cv2.VideoCapture(stream.url)
+            st_frame = st.empty()
+
+            while not flag:
+                success, image = vid_cap.read()
+                if success:
+                    self._video_frames(st_frame, image, flag, column, conf)
                 else:
                     vid_cap.release()
                     break

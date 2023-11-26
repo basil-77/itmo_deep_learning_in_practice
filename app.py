@@ -14,7 +14,8 @@ from utils_model.model import SignDetection
 SOURCE_LINK = None
 VIDEO_PATH = "videos"
 
-TestModel = SignDetection(f"{os.getcwd()}\\utils_model\\best.pt")
+TestModel = SignDetection(f"{os.getcwd()}\\utils_model\\best.pt", [], [],\
+                          f"{os.getcwd()}\\pngs\\drawable")
 
 
 def main():
@@ -30,6 +31,9 @@ def main():
 
     try:
         with st.sidebar:
+            
+            confidence = float(st.sidebar.slider(
+                            "Выберите точность", 10, 100, 80)) / 100
 
             st.title("Выбор видео")
             option = st.radio("Источник", ["Локально (.mp4)", "Youtube"], index=None)
@@ -44,19 +48,20 @@ def main():
                     os.path.join(f"{VIDEO_PATH}", download_video.name), "wb"
                 ) as f:
                     f.write(download_video.getbuffer())
+                    
+                with column1:
+                    start_local = st.button(label="начать",key = 1, on_click=\
+                    TestModel.local_video_processing(VIDEO_PATH, download_video,\
+                                                     column2, confidence))
 
             elif option == "Youtube":
                 SOURCE_LINK = st.sidebar.text_input("ссылка на видео YouTube")
-
-        with column1:
-
-            play = st.button(label="начать")
-
-            if download_video and play:
-                TestModel.local_video_processing(VIDEO_PATH, download_video, column2)
-                column2.write("")
-            elif SOURCE_LINK:
-                st_player(SOURCE_LINK)
+                
+                with column1:
+                    st_player(SOURCE_LINK)
+                    start_youtube = st.button(label="начать",key = 2, on_click=\
+                    TestModel.ytube_video_processing(SOURCE_LINK, column2, confidence))
+            
 
     except Exception as e:
         st.sidebar.error("Видео не выбрано")
