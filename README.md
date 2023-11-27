@@ -15,17 +15,36 @@
 <p align="center"><img src="img/1.jpg" width=80% alt="Main page"></p>
 <p align="center"><img src="img/2.jpg" width=80% alt="Main page"></p>
 
+## Подготовка данных для обучения
+Данные, использованные для обучения представлены с разметкой COCO. Модели YOLO требуют собственый формат представления, соответственно было выполнено преобразование данных в YOLO-формат. Для преобразования использовался скрипт JSON2YOLO, представленный на [Ultralytics](https://github.com/ultralytics/JSON2YOLO). Процесс конвертации - в файле prepare_data.ypinb.
+
 ## Эксперименты
 
 Были взяты четыре модели, все они представлены в таблице ниже. Модели были запущены в одних условиях и обучены на 20 эпохах.
-| Metrics  | YOLOv5su | YOLOv8  | YOLOv8n640 | YOLOv8s640 |
+| Metrics  | YOLOv5su | YOLOv8n  | YOLOv8n640 | YOLOv8s640 |
 | ------------- | ------------- | ------------- | ------------- | ------------- |
 | `precision` | 0.74297  | 0.81094  | 0.72414  | 0.79494  |
 | `recall`  | 0.74024  | 0.7301  | 0.63267  | 0.75753  |
 | `mAP50`  | 0.80417  | 0.81824  | 0.70368  | 0.83163  |
 | `mAP50-95`  | 0.60305  | 0.62838  | 0.51832  | 0.62737  |
 
-<p align="center"><img src="img/mAP.png" width=80% alt="Main page"></p>
+<p align="center"><img src="img/recall.png" width=80% alt="Main page"></p>
+
+## Выбор модели и обучение
+Поскольку обученную модель предполагается использовать в мобильном приложении одним из основных критериев выбора (помимо актуальности и точности) являлась "легкость" - таким образом выбор был сделан в пользу версии 'nano' (YOLOv8n) - самой быстрой и маленькой из серии YOLO8.
+
+```python
+model = YOLO('yolov8n.pt')
+model.info()
+
+results = model.train(data='./trafic_signs.yaml', batch=-1, epochs=20, imgsz=640, device='0')
+```
+Обучение модели производилось со следующими параметрами: 
+Batch-size - автовыбор;  
+Размер входного изображений - 640 (руководствуясь теми же соображениями относительно легкости и скорости работы);  
+Оптимизатор - автовыбор;  
+Число эпох - 20.  
+Использовалась GPU Nvidia RTX 3060 12Gb.  
 
 ## MVP
 
@@ -36,8 +55,45 @@
 <p align="center"><img src="img/result_det.jpg" width=90% alt="Main page"></p>
 
 - Веб-приложение: streamlit
-- Модель: YOLOv8
+- Модель: YOLOv8n
 
+### Запись функционала для веб-сервиса
+
+- [Светло день](https://youtu.be/1IzePzng8G8)
+
+- [Дождь ночь](https://youtu.be/OCR3bonUP80)
+
+### Android-приложение
+
+Приложение позволяет в реальном времени получать информацию о знаках дорожного движения в кадре смартфона. 
+<p align="center"><img src="img/1rds.jpg" height = 350 width=210 alt="Main page"><img src="img/2rds.jpg" height = 350 width=210 alt="Main page"></p>
+
+Демонстрация работы приложения в реальных условиях:
+
+[![Watch the video](https://i.stack.imgur.com/Vp2cE.png)](https://www.youtube.com/watch?v=2pB8IUU6EoA)
+
+## Как запустить веб-сервис
+
+### Requirements python >= 3.10
+```bash
+pip install -r requirements.txt
+```
+
+### Запуск из папки проекта
+```bash
+streamlit run app.py
+```
+После 1-го запуска установится доп библиотека. Нужно будет перезапустить сервис еще раз.
+
+
+## Как установить и использовать Android-приложение
+
+main
+Приложение опубликовано в RuStore и доступно для загрузки по [ссылке](https://apps.rustore.ru/app/org.pytorch.demo.objectdetection) или QR-код
+<p align="center">
+ <img width="200px" src="img/qr.jpg" alt="qr"/>
+</p>
+=======
 ## Как запустить (python >= 3.10)
 
 ```bash
@@ -56,4 +112,5 @@ streamlit run app.py
 
 
 [Дождь ночь](https://youtu.be/YnyDV07TaCk)
+
 
