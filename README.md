@@ -39,7 +39,7 @@
 <p align="center"><img src="img/result_det.jpg" width=90% alt="Main page"></p>
 
 - Веб-приложение: streamlit
-- Модель: YOLOv8n
+- Модель: YOLOv8m
 
 ### Запись функционала для веб-сервиса
 
