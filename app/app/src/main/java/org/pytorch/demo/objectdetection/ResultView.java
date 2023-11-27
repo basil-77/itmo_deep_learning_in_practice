@@ -44,7 +44,7 @@ public class ResultView extends View {
     String sign;
     List<String> signs = new ArrayList<>();
 
-    private java.time.LocalTime timer;
+    //private java.time.LocalTime timer;
 
     public ResultView(Context context) {
         super(context);
@@ -61,6 +61,18 @@ public class ResultView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
+        int height = canvas.getHeight();
+        int weidth = canvas.getWidth();
+        int size = height/10;
+        int topx = 10;
+        int topy = height-20;
+
+        Paint paint_rect = new Paint();
+        paint_rect.setStyle(Paint.Style.FILL);
+        paint_rect.setColor(Color.DKGRAY);
+        paint_rect.setAlpha(200);
+        RectF rectf_rect = new RectF(topx, topy-size-10, weidth-10, topy+10);
+        canvas.drawRoundRect(rectf_rect, 10, 10, paint_rect);
 
         for (int i=0; i<signs.size(); i++){
 
@@ -68,21 +80,16 @@ public class ResultView extends View {
             String resource_name = "znak_" + sign;
             int resID = getResources().getIdentifier(resource_name, "drawable", getContext().getPackageName());
 
+
             if(resID != 0){
                 Class res = R.drawable.class;
-                //Field field = res.getField(resource_name);
-                //int drawableId = field.getInt(null);
                 Bitmap bitmap = BitmapFactory.decodeResource(getResources(), resID);
-                //Bitmap bitmap = BitmapFactory.decodeResource(getResources(), drawableId);
-                int height = canvas.getHeight();
-                int weidth = canvas.getWidth();
-                int size = height/8;
-                int topy = height*6/8;
-                int topx = size/10 + i*size + size/10;
+                int topxx = topx + 10 + i*(size+10);
+                int topyy = topy-size;
                 Paint paint = new Paint();
                 paint.setStyle(Paint.Style.FILL);
                 paint.setColor(Color.WHITE);
-                RectF rectf = new RectF(topx, topy, topx+size, topy+size);
+                RectF rectf = new RectF(topxx, topyy, topxx+size, topyy+size);
                 if (topx+size<weidth){
                     canvas.drawRoundRect(rectf, 10, 10, paint);
                     canvas.drawBitmap(bitmap, null, rectf
@@ -115,7 +122,6 @@ public class ResultView extends View {
             sign.replace('_', '.');
             if (!signs.contains(sign)){
                 signs.add(sign);
-                timer = java.time.LocalTime.now();
             }
 
         }

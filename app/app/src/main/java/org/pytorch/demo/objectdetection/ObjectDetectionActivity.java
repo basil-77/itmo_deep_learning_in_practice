@@ -46,7 +46,7 @@ import java.util.List;
 public class ObjectDetectionActivity extends AbstractCameraXActivity<ObjectDetectionActivity.AnalysisResult>  {
     private static boolean isYOLO8 = true;
 
-    private static String modelname = "best.torchscript.ptl";
+    private static String modelname = "best_y8s.torchscript.ptl";
     private static String classesname = "classes.txt";
 
     private Bitmap mBitmap = null;

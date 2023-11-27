@@ -18,6 +18,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.annotation.UiThread;
 import androidx.annotation.WorkerThread;
+import androidx.camera.camera2.Camera2Config;
 import androidx.camera.core.CameraX;
 import androidx.camera.core.ImageAnalysis;
 import androidx.camera.core.ImageAnalysisConfig;
@@ -75,18 +76,17 @@ public abstract class AbstractCameraXActivity<R> extends BaseModuleActivity {
     private void setupCameraX() {
         final TextureView textureView = getCameraPreviewTextureView() ;
         final PreviewConfig previewConfig = new PreviewConfig.Builder()
-                //.setTargetRotation(Surface.ROTATION_180)
                 .build();
+
         final Preview preview = new Preview(previewConfig);
 
         preview.setOnPreviewOutputUpdateListener(output -> textureView.setSurfaceTexture(output.getSurfaceTexture()));
 
         final ImageAnalysisConfig imageAnalysisConfig =
             new ImageAnalysisConfig.Builder()
-                .setTargetResolution(new Size(480, 640))
-                //.setTargetRotation(Surface.ROTATION_90)
-                //.setTargetResolution(new Size(720, 1280))
+                .setTargetResolution(new Size(640, 640))
                 .setCallbackHandler(mBackgroundHandler)
+                    .setImageQueueDepth(1)
                 .setImageReaderMode(ImageAnalysis.ImageReaderMode.ACQUIRE_LATEST_IMAGE)
                 .build();
         final ImageAnalysis imageAnalysis = new ImageAnalysis(imageAnalysisConfig);

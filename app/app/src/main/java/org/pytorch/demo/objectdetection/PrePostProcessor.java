@@ -39,8 +39,8 @@ public class PrePostProcessor {
     private static int mOutputColumn = 159; // 85 left, top, right, bottom, score and 80 class probability
     private static int mnumClasses = 155; // number of classes
     private static int mlenXYWH = 4;
-    private static float mThreshold = 0.50f; // score above which a detection is generated
-    private static int mNmsLimit = 15;
+    private static float mThreshold = 0.60f; // score above which a detection is generated
+    private static int mNmsLimit = 6;
 
     static String[] mClasses;
 
