@@ -35,6 +35,8 @@
 - YOLO8s 640 cpu: 1ms 50ms 1ms cuda 0.5ms 4.5ms 1ms
 cpu - core i513600 cuda: rtx 4070ti
 
+=======
+
 ## MVP
 
 Итоговый продукт представляет собой веб-сервис + Android приложение.
@@ -48,7 +50,7 @@ cpu - core i513600 cuda: rtx 4070ti
 <p align="center"><img src="img/web.png" width=90% alt="Main page"></p>
 
 - Веб-приложение: streamlit
-- Модель: YOLOv8n
+- Модель: YOLOv8m
 
 ### Запись функционала для веб-сервиса
 
