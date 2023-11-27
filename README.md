@@ -12,7 +12,7 @@
 Данные, использованные для обучения представлены с разметкой COCO. Модели YOLO требуют собственый формат представления, соответственно было выполнено преобразование данных в YOLO-формат. Для преобразования использовался скрипт JSON2YOLO, представленный на [Ultralytics](https://github.com/ultralytics/JSON2YOLO). Процесс конвертации - в файле [prepare_data.ypinb](https://github.com/basil-77/itmo_deep_learning_in_practice/blob/945be13fc59cb0ba413f2665a62053d6ced7a430/prepare_data.ipynb).
 
 ## Выбор модели и обучение
-Файл [yolov8s.ypinb](https://github.com/basil-77/itmo_deep_learning_in_practice/blob/945be13fc59cb0ba413f2665a62053d6ced7a430/yolov8s.ipynb)
+Файл [yolov8s.ypinb](https://github.com/basil-77/itmo_deep_learning_in_practice/blob/945be13fc59cb0ba413f2665a62053d6ced7a430/yolov8s.ipynb)  
 Поскольку обученную модель предполагается использовать в мобильном приложении в качестве критериев выбора выступали с одной стороны, достаточно приемлемая точность модели, с другой ей "легкость". По результатам экспериментов выбор был сделан в пользу 'small' (YOLOv8s) - меньшая по размеру 'n' показала недостаточную точность, а старшая и более точная 'm' была уже заметно больше и требавательнее к ресурсам.
 
 ```python
