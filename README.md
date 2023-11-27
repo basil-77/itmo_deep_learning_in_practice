@@ -29,7 +29,7 @@ Batch-size - автовыбор;
 Использовалась GPU Nvidia RTX 3060 12Gb.  
 Графики изменения метрик в процессе обучения:  
 <p align="center">
- <img width="200px" src="img/metrics.png" alt="qr"/>
+ <img width="400px" src="img/metrics.png" alt="qr"/>
 </p>
 
 По окончании обучения оценка метрик mAP50 и mAP50-95 составили 0,804 и 0,603 соответственно.
