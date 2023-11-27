@@ -85,11 +85,11 @@ private static int mNmsLimit = 6; // limit of detection objects at the same time
 Сборка приложения выполнялась под платформу API 31 (Android 12).  
 
 ## Как установить и использовать
-Приложение опубликовано в rustore и доступно для загрузки по [ссылке](https://apps.rustore.ru/app/org.pytorch.demo.objectdetection) или QR-код
+Приложение опубликовано в RuStore и доступно для загрузки по [ссылке](https://apps.rustore.ru/app/org.pytorch.demo.objectdetection) или QR-код
 <p align="center">
  <img width="200px" src="img/app_qr-code.png" alt="qr"/>
 </p>
 
 Демонстрация работы приложения в реальных условиях:
-[![Traffic signs recognition demo](https://youtu.be/0X5O3OLMBWA)
+[![Traffic signs recognition demo](https://youtu.be/0X5O3OLMBWA)(https://youtu.be/0X5O3OLMBWA)
 
