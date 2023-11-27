@@ -91,5 +91,5 @@ private static int mNmsLimit = 6; // limit of detection objects at the same time
 </p>
 
 Демонстрация работы приложения в реальных условиях:
-[![Watch the video][(https://i.stack.imgur.com/Vp2cE.png)]([https://youtu.be/vt5fpE0bzSY](https://www.youtube.com/watch?v=2pB8IUU6EoA))](https://www.youtube.com/watch?v=2pB8IUU6EoA)https://www.youtube.com/watch?v=2pB8IUU6EoA
+[![Watch the video](https://i.stack.imgur.com/Vp2cE.png)](https://www.youtube.com/watch?v=2pB8IUU6EoA)
 
