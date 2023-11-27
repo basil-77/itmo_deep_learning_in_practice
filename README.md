@@ -74,9 +74,6 @@ Batch-size - автовыбор;
 
 ## Как запустить веб-сервис
 
-### itmo_deep_learning_in_practice
-ITMO. Deep Learning in practice course
-
 ### Requirements python >= 3.10
 ```bash
 pip install -r requirements.txt
