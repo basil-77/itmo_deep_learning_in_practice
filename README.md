@@ -95,16 +95,3 @@ streamlit run app.py
 <p align="center">
  <img width="200px" src="img/qr.jpg" alt="qr"/>
 </p>
-
-## Как запустить (python >= 3.10)
-
-```bash
-pip install -r requirements.txt
-```
-
-
-## Запуск из папки проекта
-```bash
-streamlit run app.py
-```
-
