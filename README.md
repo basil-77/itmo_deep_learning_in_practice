@@ -30,6 +30,11 @@
 
 <p align="center"><img src="img/recall.png" width=80% alt="Main page"></p>
 
+### Inference 
+- YOLO8 1280 cpu: 3ms preprocess 72ms inference 1.5 postprocess cuda: 3.5 ms preprocess 4ms inference 0.5 postprocess
+- YOLO8s 640 cpu: 1ms 50ms 1ms cuda 0.5ms 4.5ms 1ms
+cpu - core i513600 cuda: rtx 4070ti
+
 ## MVP
 
 Итоговый продукт представляет собой веб-сервис + Android приложение.
