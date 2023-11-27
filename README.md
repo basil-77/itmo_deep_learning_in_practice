@@ -30,6 +30,13 @@
 
 <p align="center"><img src="img/recall.png" width=80% alt="Main page"></p>
 
+### Inference 
+- YOLO8 1280 cpu: 3ms preprocess 72ms inference 1.5 postprocess cuda: 3.5 ms preprocess 4ms inference 0.5 postprocess
+- YOLO8s 640 cpu: 1ms 50ms 1ms cuda 0.5ms 4.5ms 1ms
+cpu - core i513600 cuda: rtx 4070ti
+
+=======
+
 ## MVP
 
 Итоговый продукт представляет собой веб-сервис + Android приложение.
@@ -37,6 +44,10 @@
 Веб-приложение позволяет загрузить видеоряд с локального ПК или с YouTube. Если на видео будет обнаружен знак дорожного движения, то в реальном времени он будет выделен bounding-box'ом с текстовой подписью номера знака из ПДД. Например:
 
 <p align="center"><img src="img/result_det.jpg" width=90% alt="Main page"></p>
+
+Внешний вид интерфейса веб-сервиса
+
+<p align="center"><img src="img/web.png" width=90% alt="Main page"></p>
 
 - Веб-приложение: streamlit
 - Модель: YOLOv8m
@@ -69,31 +80,9 @@ streamlit run app.py
 ```
 После 1-го запуска установится доп библиотека. Нужно будет перезапустить сервис еще раз.
 
-
 ## Как установить и использовать Android-приложение
 
 Приложение опубликовано в RuStore и доступно для загрузки по [ссылке](https://apps.rustore.ru/app/org.pytorch.demo.objectdetection) или QR-код
 <p align="center">
  <img width="200px" src="img/qr.jpg" alt="qr"/>
 </p>
-=======
-## Как запустить (python >= 3.10)
-
-```bash
-pip install -r requirements.txt
-```
-
-
-## Запуск из папки проекта
-```bash
-streamlit run app.py
-```
-
-## Запись функционала
-
-[Светло день](https://youtu.be/-AlWvp2oGvI)
-
-
-[Дождь ночь](https://youtu.be/YnyDV07TaCk)
-
-
