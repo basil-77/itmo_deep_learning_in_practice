@@ -76,11 +76,11 @@ private static int mOutputRow = 8400; //25200 for YOLOv5
 private static int mOutputColumn = 159; // output columns for YOLOv5 (number of classes + xywh + confidence)
 private static int mnumClasses = 155; // number of classes for YOLOv8
 private static int mlenXYWH = 4; // xywh for YOLOv8
-private static float mThreshold = 0.50f; // score above which a detection is generated
-private static int mNmsLimit = 5; // limit of detection objects at the same time
+private static float mThreshold = 0.60f; // score above which a detection is generated
+private static int mNmsLimit = 6; // limit of detection objects at the same time
 ```
 
-Помимо этого был переработан основной экран (Activity) приложения и добавлена дополнительная функциональность исходя из задачи. Пороговое значение вероятности для фиксации факта детекции - 0.5  
+Помимо этого был переработан основной экран (Activity) приложения и добавлена дополнительная функциональность исходя из задачи. Пороговое значение вероятности для фиксации факта детекции - 0.6  
 Работа выполнена в среде Android Studio.  
 Сборка приложения выполнялась под платформу API 31 (Android 12).  
 
