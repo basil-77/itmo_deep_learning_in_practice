@@ -57,7 +57,7 @@ static ArrayList<Result> outputsToNMSPredictionsYOLO8(float[] outputs,
                                                       float ivScaleX, float ivScaleY,
                                                       float startX, float startY)
 ```
-В результате появилась возможность использовать в приложении модели вне зависимости от версии (от YOLOv3); использование того или иного алгоритма для выполнения операций NMS в постобработке включается флагом [isYOLO8](https://github.com/basil-77/itmo_deep_learning_in_practice/blob/1667170b57812f6c8def7a0102133712454026bc/app/app/src/main/java/org/pytorch/demo/objectdetection/ObjectDetectionActivity.java#L46)
+В результате появилась возможность использовать в приложении модели вне зависимости от версии (от YOLOv3); использование того или иного алгоритма для выполнения операций NMS в постобработке включается флагом [isYOLO8](https://github.com/basil-77/itmo_deep_learning_in_practice/blob/1667170b57812f6c8def7a0102133712454026bc/app/app/src/main/java/org/pytorch/demo/objectdetection/ObjectDetectionActivity.java#L47)
 
 ```java
 // ObjectDetectionActivity.java
@@ -76,13 +76,20 @@ private static int mOutputRow = 8400; //25200 for YOLOv5
 private static int mOutputColumn = 159; // output columns for YOLOv5 (number of classes + xywh + confidence)
 private static int mnumClasses = 155; // number of classes for YOLOv8
 private static int mlenXYWH = 4; // xywh for YOLOv8
-private static float mThreshold = 0.50f; // score above which a detection is generated
-private static int mNmsLimit = 5; // limit of detection objects at the same time
+private static float mThreshold = 0.60f; // score above which a detection is generated
+private static int mNmsLimit = 6; // limit of detection objects at the same time
 ```
 
-Помимо этого был переработан основной экран (Activity) приложения и добавлена дополнительная функциональность исходя из задачи. Пороговое значение вероятности для фиксации факта детекции - 0.5  
+Помимо этого был переработан основной экран (Activity) приложения и добавлена дополнительная функциональность исходя из задачи. Пороговое значение вероятности для фиксации факта детекции - 0.6  
 Работа выполнена в среде Android Studio.  
 Сборка приложения выполнялась под платформу API 31 (Android 12).  
 
-## Как запустить
+## Как установить и использовать
+Приложение опубликовано в rustore и доступно для загрузки по [ссылке](https://apps.rustore.ru/app/org.pytorch.demo.objectdetection) или QR-код
+<p align="center">
+ <img width="200px" src="img/app_qr-code.png" alt="qr"/>
+</p>
+
+Демонстрация работы приложения в реальных условиях:
+[![Traffic signs recognition demo](https://youtu.be/0X5O3OLMBWA)
 
