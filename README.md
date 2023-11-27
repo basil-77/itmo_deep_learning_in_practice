@@ -54,6 +54,10 @@ Batch-size - автовыбор;
 
 <p align="center"><img src="img/result_det.jpg" width=90% alt="Main page"></p>
 
+Внешний вид интерфейса веб-сервиса
+
+<p align="center"><img src="img/web.png" width=90% alt="Main page"></p>
+
 - Веб-приложение: streamlit
 - Модель: YOLOv8n
 
