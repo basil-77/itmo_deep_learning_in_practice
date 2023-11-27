@@ -17,22 +17,15 @@
 
 ## Эксперименты
 
-- Работа с данными: 
+Были взяты четыре модели, все они представлены в таблице ниже. Модели были запущены в одних условиях и обучены на 20 эпохах.
+| Metrics  | YOLOv5su | YOLOv8  | YOLOv8n640 | YOLOv8s640 |
+| ------------- | ------------- | ------------- | ------------- | ------------- |
+| `precision` | 0.74297  | 0.81094  | 0.72414  | 0.79494  |
+| `recall`  | 0.74024  | 0.7301  | 0.63267  | 0.75753  |
+| `mAP50`  | 0.80417  | 0.81824  | 0.70368  | 0.83163  |
+| `mAP50-95`  | 0.60305  | 0.62838  | 0.51832  | 0.62737  |
 
-
-- Работа с YOLOv8:  
-
-Были автоматически подобраны гиперпараметры SGD(lr=0.01, momentum=0.9). 
-<p align="center"><img src="img/20epoh.jpg" width=130% alt="Main page"></p>
-<p align="center"><img src="img/speed.jpg" width=130% alt="Main page"></p>
-<p align="center"><img src="img/model_summary.PNG" width=130% alt="Main page"></p>
-
-В результате обучения на 20 эпохах мы имеем следующий результат:
-<p align="center"><img src="img/results.png" width=130% alt="Main page"></p>
-
-На валидационных данных мы можем удостовериться, что модель корректно распознает большинство знаков дорожного движения:
-<p align="center"><img src="img/val_batch2_labels.jpg" width=130% alt="Main page"></p>
-
+<p align="center"><img src="img/mAP.png" width=80% alt="Main page"></p>
 
 ## MVP
 
