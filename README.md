@@ -91,5 +91,5 @@ private static int mNmsLimit = 6; // limit of detection objects at the same time
 </p>
 
 Демонстрация работы приложения в реальных условиях:
-[![Traffic signs recognition demo](https://youtu.be/0X5O3OLMBWA)(https://youtu.be/0X5O3OLMBWA)
+[![Traffic signs recognition demo](https://youtu.be/0X5O3OLMBWA)
 
