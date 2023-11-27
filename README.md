@@ -89,15 +89,13 @@ streamlit run app.py
 ```
 После 1-го запуска установится доп библиотека. Нужно будет перезапустить сервис еще раз.
 
-
 ## Как установить и использовать Android-приложение
 
-main
 Приложение опубликовано в RuStore и доступно для загрузки по [ссылке](https://apps.rustore.ru/app/org.pytorch.demo.objectdetection) или QR-код
 <p align="center">
  <img width="200px" src="img/qr.jpg" alt="qr"/>
 </p>
-=======
+
 ## Как запустить (python >= 3.10)
 
 ```bash
@@ -109,12 +107,4 @@ pip install -r requirements.txt
 ```bash
 streamlit run app.py
 ```
-
-## Запись функционала
-
-[Светло день](https://youtu.be/-AlWvp2oGvI)
-
-
-[Дождь ночь](https://youtu.be/YnyDV07TaCk)
-
 
