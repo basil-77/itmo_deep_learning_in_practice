@@ -72,7 +72,7 @@ Batch-size - автовыбор;
 
 [![Watch the video](https://i.stack.imgur.com/Vp2cE.png)](https://www.youtube.com/watch?v=2pB8IUU6EoA)
 
-## Как установить веб-сервис
+## Как запустить веб-сервис
 
 ### itmo_deep_learning_in_practice
 ITMO. Deep Learning in practice course
